@@ -30,20 +30,21 @@ stages:
         inputs:
           command: 'restore'
           projects: 'Xwt.UITools.sln'
+          arguments: '/p:NUGET_PACKAGE_BUILD=True'
         displayName: "Restore"
 
       - task: DotNetCoreCLI@2
         inputs:
           command: 'Build'
           projects: 'Xwt.UITools.sln'
-          arguments: '--no-restore --configuration ${{ parameters.configuration }}'
+          arguments: '--no-restore --configuration ${{ parameters.configuration }} /p:NUGET_PACKAGE_BUILD=True'
         displayName: 'dotnet build ${{ parameters.configuration }}'
 
       - task: DotNetCoreCLI@2
         inputs:
           command: 'Pack'
           projects: 'Xwt.UITools.sln'
-          arguments: '--no-restore --no-build --configuration ${{ parameters.configuration }}'
+          arguments: '--no-restore --no-build --configuration ${{ parameters.configuration }} /p:NUGET_PACKAGE_BUILD=True'
         displayName: 'dotnet pack ${{ parameters.configuration }}'
 
       - publish: $(System.DefaultWorkingDirectory)/out/nupkg
