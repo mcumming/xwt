@@ -13,7 +13,7 @@ stages:
     - job: build
       displayName: "Build & Deploy"
       pool:
-        vmImage: ubuntu-latest
+        vmImage: macos-latest
       steps:
 
       - checkout: self
