@@ -26,9 +26,9 @@ stages:
           performMultiLevelLookup: true
           includePreviewVersions: true # Required for preview versions
 
-      - pwsh: dotnet workloads install macos
+      - pwsh: dotnet workload install macos
         displayName: "Install workloads"
-        
+
       - task: DotNetCoreCLI@2
         inputs:
           command: 'restore'
