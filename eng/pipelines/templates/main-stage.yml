@@ -46,7 +46,7 @@ stages:
 
       - task: DotNetCoreCLI@2
         inputs:
-          command: 'Pack'
+          command: 'pack'
           projects: 'Xwt.UITools.sln'
           arguments: '--no-restore --no-build --configuration ${{ parameters.configuration }} /p:NUGET_PACKAGE_BUILD=True'
         displayName: 'dotnet pack ${{ parameters.configuration }}'
