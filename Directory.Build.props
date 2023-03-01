@@ -1,11 +1,11 @@
 <Project>
 
-  <PropertyGroup>
+  <PropertyGroup Condition=" !$(NUGET_PACKAGE_BUILD) ">
     <InMonoDevelopTree>False</InMonoDevelopTree>
     <Net6>False</Net6>
     <InMonoDevelopTree Condition="Exists('$(MSBuildThisFileDirectory)..\..\msbuild\MonoDevelop.AfterCommon.props')">True</InMonoDevelopTree>
     <Net6 Condition="Exists('$(MSBuildThisFileDirectory)..\..\msbuild\Net6.props')">True</Net6>
-    <Net6>True</Net6>
+    
     <DotNetFrameworkTarget>net472</DotNetFrameworkTarget>
     <DotNetCoreTarget>netstandard2.0</DotNetCoreTarget>
 
@@ -14,6 +14,17 @@
 
     <TargetFramework Condition="!$(Net6)">$(DotNetFrameworkTarget)</TargetFramework>
     <TargetFramework Condition="$(Net6)">$(DotNetCoreTarget)</TargetFramework>
+
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" $(NUGET_PACKAGE_BUILD) ">
+    <InMonoDevelopTree>False</InMonoDevelopTree>
+    <Net6>True</Net6>
+
+    <DotNetFrameworkTarget>net472</DotNetFrameworkTarget>
+    <MacTargetFramework>net6.0-macos</MacTargetFramework>
+    <TargetFramework>$(DotNetFrameworkTarget)</TargetFramework>
 
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>

@@ -1,0 +1,50 @@
+parameters:
+- name: isPR
+  type: boolean
+
+- name: configuration
+  type: string
+  default: Debug
+
+stages:
+
+- stage: build
+  jobs:
+    - job: build
+      displayName: "Build & Deploy"
+      pool:
+        vmImage: ubuntu-latest
+      steps:
+
+      - checkout: self
+        clean: true
+        submodules: recursive
+
+      - task: UseDotNet@2
+        inputs:
+          version: 7.0.x
+          performMultiLevelLookup: true
+          includePreviewVersions: true # Required for preview versions
+
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'restore'
+          projects: 'Xwt.UITools.sln'
+        displayName: "Restore"
+
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'Build'
+          projects: 'Xwt.UITools.sln'
+          arguments: '--no-restore --configuration ${{ parameters.configuration }}'
+        displayName: 'dotnet build ${{ parameters.configuration }}'
+
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'Pack'
+          projects: 'Xwt.UITools.sln'
+          arguments: '--no-restore --no-build --configuration ${{ parameters.configuration }}'
+        displayName: 'dotnet pack ${{ parameters.configuration }}'
+
+      - publish: $(System.DefaultWorkingDirectory)/out/nupkg
+        artifact: Packages

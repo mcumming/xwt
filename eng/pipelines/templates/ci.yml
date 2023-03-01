@@ -1,0 +1,15 @@
+resources:
+  repositories:
+  - repository: self
+    checkoutOptions:
+      submodules: true
+
+trigger:
+  branches:
+    include:
+    - main
+
+stages:
+- template: templates/main-stage.yml
+  parameters:
+    isPR: false

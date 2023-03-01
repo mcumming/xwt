@@ -10,7 +10,7 @@
     <AssemblyName>WpfTestRunner</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <TestRunnerCommand>bin\WpfTestRunner.exe</TestRunnerCommand>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
