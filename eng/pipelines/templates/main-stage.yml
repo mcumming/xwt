@@ -47,5 +47,5 @@ stages:
           arguments: '--no-restore --no-build --configuration ${{ parameters.configuration }} /p:NUGET_PACKAGE_BUILD=True'
         displayName: 'dotnet pack ${{ parameters.configuration }}'
 
-      - publish: $(System.DefaultWorkingDirectory)/out/nupkg
+      - publish: $(System.DefaultWorkingDirectory)/**/*.nupkg
         artifact: Packages
