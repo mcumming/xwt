@@ -27,18 +27,18 @@ stages:
           includePreviewVersions: true # Required for preview versions
 
       - pwsh: dotnet workload install macos
-        displayName: "Install workloads"
+        displayName: 'dotnet workload install macos'
 
       - task: DotNetCoreCLI@2
         inputs:
           command: 'restore'
           projects: 'Xwt.UITools.sln'
           restoreArguments: '/p:NUGET_PACKAGE_BUILD=True'
-        displayName: "Restore"
+        displayName: 'dotnet restore'
 
       - task: DotNetCoreCLI@2
         inputs:
-          command: 'Build'
+          command: 'build'
           projects: 'Xwt.UITools.sln'
           arguments: '--no-restore --configuration ${{ parameters.configuration }} /p:NUGET_PACKAGE_BUILD=True'
         displayName: 'dotnet build ${{ parameters.configuration }}'
