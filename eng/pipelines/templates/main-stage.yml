@@ -46,9 +46,15 @@ stages:
 
       - task: DotNetCoreCLI@2
         inputs:
+          #command: 'pack'
+          #projects: 'Xwt.UITools.sln'
+          #arguments: '--no-restore --no-build --configuration ${{ parameters.configuration }} /p:- task: DotNetCoreCLI@2
           command: 'pack'
-          projects: 'Xwt.UITools.sln'
-          arguments: '--no-restore --no-build --configuration ${{ parameters.configuration }} /p:NUGET_PACKAGE_BUILD=True'
+          packagesToPack: '**/*.csproj'
+          nobuild: true
+          includesymbols: true
+          versioningScheme: 'off'
+          buildProperties: 'NUGET_PACKAGE_BUILD=True'
         displayName: 'dotnet pack ${{ parameters.configuration }}'
 
       - publish: $(System.DefaultWorkingDirectory)/**/*.nupkg
