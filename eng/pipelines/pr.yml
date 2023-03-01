@@ -1,0 +1,20 @@
+esources:
+  repositories:
+  - repository: self
+    checkoutOptions:
+      submodules: true
+
+trigger: none
+
+pr:
+  autoCancel: true
+  branches:
+    exclude:
+    - main
+    include:
+    - '*'  # yes, you do need the quote, * has meaning in yaml
+
+stages:
+- template: templates/main-stage.yml
+  parameters:
+    isPR: true
