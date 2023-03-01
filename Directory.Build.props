@@ -1,4 +1,7 @@
 <Project>
+  <PropertyGroup>
+    <NUGET_PACKAGE_BUILD Condition=" $(NUGET_PACKAGE_BUILD)==''">False</NUGET_PACKAGE_BUILD>
+  </PropertyGroup>
 
   <PropertyGroup Condition=" !$(NUGET_PACKAGE_BUILD) ">
     <InMonoDevelopTree>False</InMonoDevelopTree>
