@@ -18,6 +18,7 @@ stages:
 
       - checkout: self
         clean: true
+        fetchDepth: 0 # Do not shallow fetch
         submodules: recursive
 
       - task: UseDotNet@2
