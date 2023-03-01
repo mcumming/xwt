@@ -46,11 +46,8 @@ stages:
 
       - task: DotNetCoreCLI@2
         inputs:
-          #command: 'pack'
-          #projects: 'Xwt.UITools.sln'
-          #arguments: '--no-restore --no-build --configuration ${{ parameters.configuration }} /p:- task: DotNetCoreCLI@2
           command: 'pack'
-          packagesToPack: '**/*.csproj'
+          packagesToPack: 'Xwt/Xwt.csproj;Xwt.WPF/Xwt.WPF.csproj;Xwt.XamMac/Xwt.XamMac.csproj'
           nobuild: true
           includesymbols: true
           versioningScheme: 'off'
