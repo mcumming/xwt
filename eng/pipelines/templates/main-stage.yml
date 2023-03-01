@@ -49,18 +49,8 @@ stages:
           command: 'custom'
           projects: 'Xwt.UITools.sln'
           custom: 'pack'
-          arguments: '--no-restore --no-build /p:NUGET_PACKAGE_BUILD=True'
+          arguments: '--no-restore --no-build --configuration ${{ parameters.configuration }} /p:NUGET_PACKAGE_BUILD=True'
         displayName: 'dotnet pack ${{ parameters.configuration }}'
-
-#      - task: DotNetCoreCLI@2
-#       inputs:
-#          command: 'pack'
-#          packagesToPack: 'Xwt/Xwt.csproj;Xwt.WPF/Xwt.WPF.csproj;Xwt.XamMac/Xwt.XamMac.csproj'
-#          nobuild: true
-#          includesymbols: true
-#          versioningScheme: 'off'
-#          buildProperties: 'NUGET_PACKAGE_BUILD=True'
-#        displayName: 'dotnet pack ${{ parameters.configuration }}'
 
       - publish: $(System.DefaultWorkingDirectory)/**/*.nupkg
         artifact: Packages
