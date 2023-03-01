@@ -30,7 +30,7 @@ stages:
         inputs:
           command: 'restore'
           projects: 'Xwt.UITools.sln'
-          arguments: '/p:NUGET_PACKAGE_BUILD=True'
+          restoreArguments: 'NUGET_PACKAGE_BUILD=True'
         displayName: "Restore"
 
       - task: DotNetCoreCLI@2
