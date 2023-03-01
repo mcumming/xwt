@@ -54,3 +54,13 @@ stages:
 
       - publish: $(Build.ArtifactStagingDirectory)/nupkgs
         artifact: Packages
+
+      - task: NuGetAuthenticate@0
+        displayName: 'NuGet Authenticate'
+
+      - task: NuGetCommand@2
+        displayName: 'NuGet push'
+        inputs:
+          command: push
+          publishVstsFeed: 'devdiv/Xamarin.UITooling'
+          allowPackageConflicts: true        
