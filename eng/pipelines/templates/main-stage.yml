@@ -12,8 +12,18 @@ stages:
   jobs:
     - job: build
       displayName: "Build & Deploy"
+      strategy:
+        matrix:
+          'Windows':
+            image: 'windows-latest'
+            configuration: '${{ parameters.configuration }}'
+          'macOS':
+            image: 'macos-latest'
+            configuration: '${{ parameters.configuration }}-macOS'
+
       pool:
-        vmImage: macos-latest
+        vmImage: $(image)
+
       steps:
 
       - checkout: self
@@ -26,27 +36,28 @@ stages:
           version: 7.0.201
           performMultiLevelLookup: true
           includePreviewVersions: true # Required for preview versions
+        displayName: "⚙️ Configure DotNet version"
 
-      - pwsh: dotnet workload install macos
-        displayName: 'dotnet workload install macos'
+      - pwsh: dotnet workload install macos 
+        displayName: '⚙️ dotnet workload install macos'
 
       - task: VSBuild@1
         inputs:
           solution: 'Xwt.UITools.sln'
           platform: 'Any Cpu'
-          configuration: ${{ parameters.configuration }} 
-          restoreNugetPackages: true
-          msbuildArgs: '/t:pack /p:IncludeSymbols=true /p:NUGET_PACKAGE_BUILD=True /p:IncludeSymbols=true'
-        displayName: 'pack ${{ parameters.configuration }}'
+          configuration: $(configuration)
+          msbuildArgs: '/r /t:pack /p:IncludeSymbols=true /p:NUGET_PACKAGE_BUILD=True /p:IncludeSymbols=true /p:PackageOutputPath=$(Build.ArtifactStagingDirectory)/nupkgs'
+        displayName: '📦 Pack $(configuration)'
 
       - publish: $(Build.ArtifactStagingDirectory)/nupkgs
         artifact: Packages
+        displayName: "📢 collect package artifact"
 
       - task: NuGetAuthenticate@0
-        displayName: 'NuGet Authenticate'
+        displayName: '🔏 NuGet Authenticate'
 
       - task: NuGetCommand@2
-        displayName: 'NuGet push'
+        displayName: '📦 NuGet push'
         inputs:
           command: push
           publishVstsFeed: 'devdiv/Xamarin.UITooling'
