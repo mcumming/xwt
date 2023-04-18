@@ -30,27 +30,14 @@ stages:
       - pwsh: dotnet workload install macos
         displayName: 'dotnet workload install macos'
 
-      - task: DotNetCoreCLI@2
+      - task: VSBuild@1
         inputs:
-          command: 'restore'
-          projects: 'Xwt.UITools.sln'
-          restoreArguments: '/p:NUGET_PACKAGE_BUILD=True'
-        displayName: 'dotnet restore'
-
-      - task: DotNetCoreCLI@2
-        inputs:
-          command: 'build'
-          projects: 'Xwt.UITools.sln'
-          arguments: '--no-restore --configuration ${{ parameters.configuration }} /p:NUGET_PACKAGE_BUILD=True'
-        displayName: 'dotnet build ${{ parameters.configuration }}'
-
-      - task: DotNetCoreCLI@2
-        inputs:
-          command: 'custom'
-          projects: 'Xwt.UITools.sln'
-          custom: 'pack'
-          arguments: '--no-restore --no-build --include-symbols --configuration ${{ parameters.configuration }} /p:NUGET_PACKAGE_BUILD=True --output $(Build.ArtifactStagingDirectory)/nupkgs'
-        displayName: 'dotnet pack ${{ parameters.configuration }}'
+          solution: 'Xwt.UITools.sln'
+          platform: 'Any Cpu'
+          configuration: ${{ parameters.configuration }} 
+          restoreNugetPackages: true
+          msbuildArgs: '/t:pack /p:IncludeSymbols=true /p:NUGET_PACKAGE_BUILD=True /p:IncludeSymbols=true'
+        displayName: 'pack ${{ parameters.configuration }}'
 
       - publish: $(Build.ArtifactStagingDirectory)/nupkgs
         artifact: Packages
